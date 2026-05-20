@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>มาตรการฯ พาอร่อย 🍜</title>
+<script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Kanit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ===== THEMES ===== */
+[data-theme="orange"] {
+  --primary:#FF6B35;--primary-dark:#E8521A;--primary-light:#FF8C5A;
+  --primary-bg:#FFF8F0;--primary-soft:#FFF3EC;--primary-faint:#FFE8DC;
+  --accent:#FFE0B2;--header-grad:linear-gradient(135deg,#FF6B35 0%,#E8521A 60%,#C23A00 100%);
+}
+[data-theme="green"] {
+  --primary:#2E7D32;--primary-dark:#1B5E20;--primary-light:#43A047;
+  --primary-bg:#F1F8F2;--primary-soft:#E8F5E9;--primary-faint:#C8E6C9;
+  --accent:#A5D6A7;--header-grad:linear-gradient(135deg,#388E3C 0%,#2E7D32 60%,#1B5E20 100%);
+}
+[data-theme="indigo"] {
+  --primary:#3949AB;--primary-dark:#283593;--primary-light:#5C6BC0;
+  --primary-bg:#F3F4FB;--primary-soft:#E8EAF6;--primary-faint:#C5CAE9;
+  --accent:#9FA8DA;--header-grad:linear-gradient(135deg,#5C6BC0 0%,#3949AB 60%,#283593 100%);
+}
+:root {
+  --cream:var(--primary-bg);--warm-white:#FFFDF9;
+  --brown:#4A2C0A;--brown-mid:#7A4520;--brown-light:#C4895A;
+  --green-ok:#2D7A4F;--green-light-ok:#4CAF72;
+  --red:#D93025;--gray:#8A8A8A;--gray-light:#F0EDE8;
+  --shadow:0 4px 24px rgba(74,44,10,0.10);
+  --food-color:#E65100;--snack-color:#6A1B9A;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Sarabun',sans-serif;background:var(--cream);color:var(--brown);min-height:100vh;overflow-x:hidden;transition:background .3s;}
+
+/* HEADER */
+.header{background:var(--header-grad);padding:20px 16px 22px;position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;top:-30px;right:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.08);}
+.header::after{content:'';position:absolute;bottom:-50px;left:-20px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.05);}
+.header-inner{position:relative;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;}
+.header-left{}
+.app-badge{display:inline-block;background:rgba(255,255,255,0.2);color:#fff;font-size:11px;font-weight:600;letter-spacing:1px;padding:4px 10px;border-radius:20px;margin-bottom:8px;font-family:'Kanit',sans-serif;}
+.app-title{font-family:'Kanit',sans-serif;font-size:26px;font-weight:900;color:#fff;line-height:1.1;text-shadow:0 2px 8px rgba(0,0,0,0.15);}
+.app-title span{color:var(--accent);}
+.header-sub{color:rgba(255,255,255,0.82);font-size:12px;margin-top:3px;}
+.theme-btn{background:rgba(255,255,255,0.18);border:none;border-radius:10px;color:#fff;padding:8px 10px;cursor:pointer;font-size:18px;transition:background .2s;}
+.theme-btn:hover{background:rgba(255,255,255,0.28);}
+
+/* TABS */
+.container{padding:14px;max-width:480px;margin:0 auto;}
+.tabs{display:flex;background:#fff;border-radius:14px;padding:4px;margin-bottom:14px;box-shadow:var(--shadow);gap:3px;}
+.tab-btn{flex:1;padding:9px 2px;border:none;border-radius:10px;background:transparent;color:var(--gray);font-family:'Kanit',sans-serif;font-size:11px;font-weight:600;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.tab-btn .tab-icon{font-size:17px;}
+.tab-btn.active{background:var(--primary);color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.2);}
+.section{display:none;}.section.active{display:block;}
+
+/* CARDS */
+.card{background:#fff;border-radius:16px;padding:15px;box-shadow:var(--shadow);margin-bottom:12px;}
+.card-title{font-family:'Kanit',sans-serif;font-size:15px;font-weight:700;color:var(--brown);margin-bottom:11px;display:flex;align-items:center;gap:7px;}
+
+/* FORM */
+label{display:block;font-size:13px;font-weight:600;color:var(--brown-mid);margin-bottom:4px;}
+input[type=text],input[type=datetime-local],input[type=number],select,textarea{width:100%;padding:10px 13px;border:1.5px solid #E8DDD0;border-radius:10px;font-family:'Sarabun',sans-serif;font-size:14px;color:var(--brown);background:var(--warm-white);transition:border-color .2s;outline:none;margin-bottom:9px;}
+input:focus,select:focus{border-color:var(--primary);}
+.row{display:flex;gap:9px;}.row>*{flex:1;}
+
+/* TYPE TAG */
+.type-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:700;font-family:'Kanit',sans-serif;}
+.tag-food{background:#FFF3E0;color:var(--food-color);}
+.tag-snack{background:#F3E5F5;color:var(--snack-color);}
+
+/* BUTTONS */
+.btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 18px;border:none;border-radius:12px;font-family:'Kanit',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;width:100%;}
+.btn-primary{background:linear-gradient(135deg,var(--primary-light),var(--primary-dark));color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.2);}
+.btn-primary:hover{transform:translateY(-1px);}
+.btn-secondary{background:var(--gray-light);color:var(--brown);}
+.btn-green{background:linear-gradient(135deg,#43A047,#2E7D32);color:#fff;}
+.btn-red{background:linear-gradient(135deg,#EF5350,#C62828);color:#fff;}
+.btn-purple{background:linear-gradient(135deg,#AB47BC,#6A1B9A);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:8px;width:auto;}
+
+/* STATUS */
+.status-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700;font-family:'Kanit',sans-serif;}
+.badge-open{background:#E8F5E9;color:var(--green-ok);}
+.badge-closed{background:#FFEBEE;color:var(--red);}
+.badge-archived{background:#EDE7F6;color:#4527A0;}
+.s-dot{width:7px;height:7px;border-radius:50%;}
+.badge-open .s-dot{background:var(--green-light-ok);animation:pulse 2s infinite;}
+.badge-closed .s-dot{background:var(--red);}
+.badge-archived .s-dot{background:#7E57C2;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 2px rgba(76,175,114,.3);}50%{box-shadow:0 0 0 5px rgba(76,175,114,.08);}}
+
+/* MENU LIST */
+.menu-list{display:flex;flex-direction:column;gap:7px;margin-bottom:9px;}
+.menu-item-row{display:flex;align-items:center;gap:8px;background:var(--gray-light);border-radius:10px;padding:8px 11px;}
+.menu-item-row .menu-name{flex:1;font-size:13px;font-weight:600;}
+.menu-item-row .menu-price{color:var(--primary-dark);font-size:13px;font-weight:700;font-family:'Kanit',sans-serif;margin-right:4px;}
+.del-btn{background:none;border:none;cursor:pointer;color:#ccc;font-size:17px;transition:color .2s;line-height:1;}
+.del-btn:hover{color:var(--red);}
+.add-menu-row{display:flex;gap:7px;align-items:flex-end;}
+.add-menu-row input{flex:1;margin-bottom:0;}
+.price-input{width:85px;flex:none;}
+.type-select{width:105px;flex:none;margin-bottom:0;}
+
+/* ORDER OPTIONS */
+.order-option{border:2px solid #E8DDD0;border-radius:13px;padding:13px;margin-bottom:9px;cursor:pointer;transition:all .2s;background:#fff;display:flex;align-items:center;gap:11px;}
+.order-option:hover{border-color:var(--primary-light);background:var(--primary-soft);}
+.order-option.selected{border-color:var(--primary);background:var(--primary-soft);box-shadow:0 0 0 3px rgba(0,0,0,.06);}
+.food-emoji{font-size:30px;flex-shrink:0;}
+.food-info{flex:1;}
+.food-name{font-family:'Kanit',sans-serif;font-weight:700;font-size:15px;}
+.food-price{color:var(--primary-dark);font-size:13px;font-weight:600;}
+.check-circle{width:24px;height:24px;border-radius:50%;border:2px solid #E0D6CC;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.order-option.selected .check-circle{background:var(--primary);border-color:var(--primary);color:#fff;font-size:14px;}
+
+/* USER */
+.user-info-row{display:flex;align-items:center;gap:9px;background:var(--gray-light);border-radius:12px;padding:10px 13px;margin-bottom:9px;}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary-light),var(--primary-dark));display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;font-weight:800;font-family:'Kanit',sans-serif;flex-shrink:0;}
+.user-name{font-weight:700;font-size:14px;flex:1;}
+.user-role-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;font-family:'Kanit',sans-serif;}
+.badge-admin{background:var(--primary-faint);color:var(--primary-dark);}
+.badge-member{background:#E3F2EC;color:var(--green-ok);}
+
+/* SECTION DIVIDER */
+.sect-divider{display:flex;align-items:center;gap:8px;margin:14px 0 10px;}
+.sect-divider-line{flex:1;height:1px;background:#E8DDD0;}
+.sect-divider-label{font-family:'Kanit',sans-serif;font-size:12px;font-weight:700;color:var(--gray);white-space:nowrap;}
+
+/* SESSION ADMIN CARD */
+.session-admin-card{background:#fff;border-radius:16px;box-shadow:var(--shadow);margin-bottom:12px;overflow:hidden;}
+.session-admin-header{padding:13px 15px;display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none;}
+.session-admin-header:hover{background:#FAFAFA;}
+.session-admin-title{font-family:'Kanit',sans-serif;font-weight:800;font-size:15px;flex:1;}
+.session-admin-body{padding:0 15px 15px;border-top:1px solid #F0EDE8;}
+.collapse-icon{font-size:17px;transition:transform .25s;color:var(--gray);}
+.collapsed .collapse-icon{transform:rotate(-90deg);}
+.collapsed .session-admin-body{display:none;}
+
+/* STAT */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px;}
+.stat-card{border-radius:14px;padding:13px;color:#fff;text-align:center;}
+.sc-p{background:linear-gradient(135deg,var(--primary-light),var(--primary-dark));}
+.sc-green{background:linear-gradient(135deg,#43A047,#2E7D32);}
+.sc-brown{background:linear-gradient(135deg,#C4895A,#7A4520);}
+.sc-dark{background:linear-gradient(135deg,#555,#333);}
+.sc-food{background:linear-gradient(135deg,#FF8A65,#E64A19);}
+.sc-snack{background:linear-gradient(135deg,#CE93D8,#7B1FA2);}
+.stat-num{font-family:'Kanit',sans-serif;font-size:30px;font-weight:900;line-height:1;}
+.stat-label{font-size:11px;opacity:.85;margin-top:2px;}
+
+/* BAR */
+.order-bar{display:flex;flex-direction:column;gap:4px;margin-bottom:10px;}
+.order-bar-top{display:flex;align-items:center;justify-content:space-between;}
+.order-bar-name{font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;}
+.order-bar-count{font-family:'Kanit',sans-serif;font-weight:700;font-size:13px;color:var(--primary-dark);}
+.bar-track{height:7px;background:var(--gray-light);border-radius:99px;overflow:hidden;}
+.bar-fill-food{height:100%;background:linear-gradient(90deg,#FF8A65,#E64A19);border-radius:99px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+.bar-fill-snack{height:100%;background:linear-gradient(90deg,#CE93D8,#7B1FA2);border-radius:99px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+
+/* TABLE */
+.orders-table{width:100%;border-collapse:collapse;}
+.orders-table th{background:var(--gray-light);padding:7px 9px;text-align:left;font-family:'Kanit',sans-serif;font-size:11px;color:var(--brown-mid);font-weight:700;}
+.orders-table th:first-child{border-radius:8px 0 0 8px;}.orders-table th:last-child{border-radius:0 8px 8px 0;}
+.orders-table td{padding:8px 9px;font-size:12px;border-bottom:1px solid #F0EDE8;vertical-align:middle;}
+.orders-table tr:last-child td{border-bottom:none;}
+
+/* ALERT */
+.alert{padding:11px 13px;border-radius:12px;font-size:13px;font-weight:500;margin-bottom:9px;display:flex;align-items:center;gap:7px;}
+.alert-info{background:#E3F2FD;color:#1565C0;}
+.alert-warning{background:#FFF8E1;color:#E65100;}
+.alert-success{background:#E8F5E9;color:#2E7D32;}
+
+.divider{height:1px;background:#F0EDE8;margin:12px 0;}
+.empty-state{text-align:center;padding:28px 20px;color:var(--gray);}
+.empty-state .empty-icon{font-size:36px;margin-bottom:7px;}
+.empty-state p{font-size:13px;line-height:1.6;}
+
+/* PROGRESS */
+.prog-card{display:flex;align-items:center;gap:18px;}
+.prog-mini{border-radius:12px;padding:9px 13px;display:flex;align-items:center;gap:9px;margin-bottom:7px;}
+.prog-mini.green-bg{background:#E8F5E9;}
+.prog-mini.orange-bg{background:var(--primary-soft);}
+.prog-num{font-family:'Kanit',sans-serif;font-size:22px;font-weight:900;line-height:1;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:flex-end;z-index:1000;opacity:0;pointer-events:none;transition:opacity .25s;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{background:#fff;width:100%;max-width:480px;margin:0 auto;border-radius:20px 20px 0 0;padding:22px 15px 30px;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:90vh;overflow-y:auto;}
+.modal-overlay.open .modal{transform:translateY(0);}
+.modal-handle{width:36px;height:4px;background:#E0D6CC;border-radius:99px;margin:0 auto 16px;}
+.modal-title{font-family:'Kanit',sans-serif;font-size:17px;font-weight:800;text-align:center;margin-bottom:14px;}
+
+/* THEME MODAL */
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.theme-option{border:3px solid transparent;border-radius:14px;padding:14px 8px;cursor:pointer;text-align:center;transition:all .2s;}
+.theme-option.active{border-color:var(--primary);}
+.theme-swatch{width:44px;height:44px;border-radius:50%;margin:0 auto 8px;}
+.theme-name{font-family:'Kanit',sans-serif;font-size:13px;font-weight:700;}
+
+/* HISTORY */
+.history-card{background:#fff;border-radius:14px;box-shadow:var(--shadow);margin-bottom:10px;overflow:hidden;}
+.history-header{padding:13px 15px;display:flex;align-items:center;gap:9px;cursor:pointer;}
+.history-header:hover{background:#FAFAFA;}
+.history-title{font-family:'Kanit',sans-serif;font-weight:800;font-size:14px;flex:1;}
+.history-body{padding:0 15px 14px;border-top:1px solid #F0EDE8;}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--brown);color:#fff;padding:11px 22px;border-radius:99px;font-size:14px;font-weight:600;z-index:9999;opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);white-space:nowrap;max-width:90vw;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:#E0D6CC;border-radius:99px;}
+</style>
+</head>
+<body data-theme="orange">
+<div id="loadingOverlay" style="position:fixed;inset:0;background:rgba(255,248,240,0.95);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:12px">
+  <div style="font-size:48px;animation:spin 1.5s linear infinite">🍜</div>
+  <div style="font-family:'Kanit',sans-serif;font-weight:700;font-size:16px;color:#E8521A">กำลังโหลด...</div>
+  <div style="font-size:13px;color:#8A8A8A">เชื่อมต่อ Firebase</div>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-left">
+      <div class="app-badge">🍜 สั่งอาหาร</div>
+      <div class="app-title">มาตรการฯ <span>พาอร่อย</span></div>
+      <div class="header-sub">ระบบสั่งอาหาร — รองรับหลายรอบพร้อมกัน</div>
+    </div>
+    <button class="theme-btn" onclick="openThemeModal()" title="เปลี่ยนธีมสี">🎨</button>
+  </div>
+</div>
+
+<div class="container">
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('order')" id="tab-order">
+      <span class="tab-icon">🛒</span>สั่งอาหาร
+    </button>
+    <button class="tab-btn" onclick="switchTab('admin')" id="tab-admin">
+      <span class="tab-icon">⚙️</span>ผู้เปิดรับ
+    </button>
+    <button class="tab-btn" onclick="switchTab('dashboard')" id="tab-dashboard">
+      <span class="tab-icon">📊</span>สรุป
+    </button>
+    <button class="tab-btn" onclick="switchTab('history')" id="tab-history">
+      <span class="tab-icon">🗂️</span>ประวัติ
+    </button>
+  </div>
+
+  <!-- ===== ORDER TAB ===== -->
+  <div class="section active" id="section-order">
+    <div class="card">
+      <div class="card-title"><span>👤</span>ข้อมูลของคุณ</div>
+      <div class="user-info-row">
+        <div class="avatar" id="userAvatar">?</div>
+        <div class="user-name" id="userNameDisplay">กรุณาระบุชื่อ</div>
+        <div class="user-role-badge badge-member" id="userRoleBadge">สมาชิก</div>
+      </div>
+      <div id="nameInputRow" style="display:flex;gap:8px;align-items:flex-end">
+        <div style="flex:1">
+          <label>ชื่อของคุณ</label>
+          <input type="text" id="userName" placeholder="ชื่อเล่น / ชื่อ-นามสกุล" style="margin-bottom:0">
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="setUser()" style="height:42px;width:auto;padding:0 14px">ยืนยัน</button>
+      </div>
+    </div>
+    <div id="orderSessionArea">
+      <div class="alert alert-warning">⏳ ยังไม่มีรอบเปิดรับออเดอร์</div>
+    </div>
+  </div>
+
+  <!-- ===== ADMIN TAB ===== -->
+  <div class="section" id="section-admin">
+    <div class="card" id="adminAuthCard">
+      <div class="card-title"><span>🔐</span>ยืนยันตัวตนผู้เปิดรับ</div>
+      <label>รหัสผ่าน (ค่าเริ่มต้น: 1234)</label>
+      <input type="text" id="adminPass" placeholder="รหัสผ่าน" style="margin-bottom:10px">
+      <button class="btn btn-primary" onclick="adminLogin()">🔓 เข้าสู่ระบบ</button>
+    </div>
+    <div id="adminPanel" style="display:none">
+      <!-- Create session -->
+      <div class="card">
+        <div class="card-title"><span>➕</span>สร้างรอบรับออเดอร์ใหม่</div>
+        <label>ชื่อรอบ / ร้านอาหาร</label>
+        <input type="text" id="newSessionName" placeholder="เช่น ข้าวมันไก่, ชานมไข่มุก">
+        <label>จำนวนสมาชิกในกลุ่ม LINE (คน)</label>
+        <input type="number" id="newGroupCount" placeholder="เช่น 20" min="1">
+        <label>ประเภทออเดอร์ในรอบนี้</label>
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <label style="flex:1;margin-bottom:0;cursor:pointer" onclick="selectSessType('food')">
+            <div id="typePillFood" style="border:2px solid var(--primary);background:var(--primary-soft);border-radius:12px;padding:10px;text-align:center;transition:all .2s">
+              <div style="font-size:22px">🍛</div>
+              <div style="font-family:'Kanit',sans-serif;font-size:13px;font-weight:700;color:var(--primary-dark)">อาหาร</div>
+            </div>
+          </label>
+          <label style="flex:1;margin-bottom:0;cursor:pointer" onclick="selectSessType('snack')">
+            <div id="typePillSnack" style="border:2px solid #E8DDD0;background:#fff;border-radius:12px;padding:10px;text-align:center;transition:all .2s">
+              <div style="font-size:22px">🧁</div>
+              <div style="font-family:'Kanit',sans-serif;font-size:13px;font-weight:700;color:var(--gray)">อาหารว่าง</div>
+            </div>
+          </label>
+        </div>
+        <div class="row">
+          <div><label>เวลาเปิดรับ</label><input type="datetime-local" id="newOpenTime" style="margin-bottom:0"></div>
+          <div><label>เวลาปิดรับ</label><input type="datetime-local" id="newCloseTime" style="margin-bottom:0"></div>
+        </div>
+        <div style="margin-top:10px">
+          <div class="card-title" style="margin-bottom:7px"><span>🍜</span>รายการเมนู</div>
+          <div class="menu-list" id="newMenuList"><div style="color:var(--gray);font-size:13px">ยังไม่มีเมนู</div></div>
+          <div class="add-menu-row">
+            <input type="text" id="newMenuName" placeholder="ชื่อเมนู" style="margin-bottom:0">
+            <input type="number" id="newMenuPrice" placeholder="ราคา" class="price-input" min="0" style="margin-bottom:0">
+            <button class="btn btn-primary btn-sm" onclick="addNewMenuItem()" style="flex-shrink:0;height:42px;width:auto;padding:0 13px">+</button>
+          </div>
+        </div>
+        <div style="margin-top:10px">
+          <button class="btn btn-green" onclick="createSession()">🟢 สร้างและเปิดรับออเดอร์</button>
+        </div>
+      </div>
+      <!-- Active sessions -->
+      <div id="adminSessionsList"></div>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD TAB ===== -->
+  <div class="section" id="section-dashboard">
+    <div class="card">
+      <div class="card-title"><span>📋</span>เลือกรอบที่ต้องการดู</div>
+      <select id="dashSessionSelect" onchange="renderDashboard()" style="margin-bottom:0">
+        <option value="all">ทุกรอบรวมกัน</option>
+      </select>
+    </div>
+    <!-- Progress -->
+    <div class="card">
+      <div class="card-title"><span>🎯</span>ความคืบหน้าการจอง</div>
+      <div class="prog-card">
+        <div style="position:relative;flex-shrink:0">
+          <svg width="90" height="90" viewBox="0 0 96 96">
+            <circle cx="48" cy="48" r="40" fill="none" stroke="#F0EDE8" stroke-width="10"/>
+            <circle id="progressRing" cx="48" cy="48" r="40" fill="none"
+              stroke="url(#rg)" stroke-width="10" stroke-linecap="round"
+              stroke-dasharray="251.2" stroke-dashoffset="251.2"
+              transform="rotate(-90 48 48)"
+              style="transition:stroke-dashoffset .7s cubic-bezier(.4,0,.2,1)"/>
+            <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#FF8C5A"/><stop offset="100%" stop-color="#E8521A"/>
+            </linearGradient></defs>
+          </svg>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <div id="progressPct" style="font-family:'Kanit',sans-serif;font-size:19px;font-weight:900;color:var(--primary-dark);line-height:1">-</div>
+            <div style="font-size:10px;color:var(--gray);font-weight:600">จองแล้ว</div>
+          </div>
+        </div>
+        <div style="flex:1">
+          <div class="prog-mini green-bg">
+            <div style="font-size:19px">✅</div>
+            <div><div class="prog-num" id="statOrdered" style="color:var(--green-ok)">0</div><div style="font-size:11px;color:var(--green-ok);font-weight:600">จองแล้ว</div></div>
+          </div>
+          <div class="prog-mini orange-bg">
+            <div style="font-size:19px">⏳</div>
+            <div><div class="prog-num" id="statNotOrdered" style="color:var(--primary-dark)">-</div><div style="font-size:11px;color:var(--primary-dark);font-weight:600">ยังไม่จอง</div></div>
+          </div>
+          <div id="memberCountNote" style="font-size:11px;color:var(--gray);text-align:center"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Stats grid -->
+    <div class="stat-grid">
+      <div class="stat-card sc-p"><div class="stat-num" id="statTotal">0</div><div class="stat-label">ออเดอร์ทั้งหมด</div></div>
+      <div class="stat-card sc-green"><div class="stat-num" id="statSessions">0</div><div class="stat-label">รอบที่เปิดอยู่</div></div>
+      <div class="stat-card sc-food"><div class="stat-num" id="statFoodCount">0</div><div class="stat-label">🍛 อาหาร</div></div>
+      <div class="stat-card sc-snack"><div class="stat-num" id="statSnackCount">0</div><div class="stat-label">🧁 อาหารว่าง</div></div>
+      <div class="stat-card sc-brown"><div class="stat-num" id="statTotalPrice">0</div><div class="stat-label">ยอดรวม (฿)</div></div>
+      <div class="stat-card sc-dark"><div class="stat-num" id="statMenuCount">0</div><div class="stat-label">เมนูทั้งหมด</div></div>
+    </div>
+    <!-- Bars by type -->
+    <div class="card">
+      <div class="card-title"><span>🍛</span>อาหาร</div>
+      <div id="dashFoodBars"><div class="empty-state" style="padding:16px"><div class="empty-icon">🍛</div><p>ยังไม่มีข้อมูล</p></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span>🧁</span>อาหารว่าง</div>
+      <div id="dashSnackBars"><div class="empty-state" style="padding:16px"><div class="empty-icon">🧁</div><p>ยังไม่มีข้อมูล</p></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span>👥</span>รายชื่อผู้สั่ง</div>
+      <div id="dashboardOrdersTable"><div class="empty-state"><div class="empty-icon">🛒</div><p>ยังไม่มีออเดอร์</p></div></div>
+    </div>
+    <!-- Trending -->
+    <div class="card">
+      <div class="card-title"><span>🔥</span>Trending — ร้านยอดนิยม</div>
+      <div id="trendingShops"><div class="empty-state" style="padding:14px"><div class="empty-icon">🏪</div><p>ยังไม่มีข้อมูลประวัติ</p></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span>⭐</span>Trending — เมนูยอดฮิต</div>
+      <div id="trendingMenus"><div class="empty-state" style="padding:14px"><div class="empty-icon">🍽️</div><p>ยังไม่มีข้อมูลประวัติ</p></div></div>
+    </div>
+  </div>
+
+  <!-- ===== HISTORY TAB ===== -->
+  <div class="section" id="section-history">
+    <div class="alert alert-info">🗂️ แสดงรอบที่ปิดรับแล้วทั้งหมด (ทั้งปิดเองและหมดเวลา)</div>
+    <div id="historyList"><div class="empty-state"><div class="empty-icon">📂</div><p>ยังไม่มีประวัติการเปิดรับออเดอร์</p></div></div>
+  </div>
+</div>
+
+<!-- THEME MODAL -->
+<div class="modal-overlay" id="themeModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🎨 เลือกธีมสี</div>
+    <div class="theme-grid">
+      <div class="theme-option" id="theme-orange" onclick="setTheme('orange')">
+        <div class="theme-swatch" style="background:linear-gradient(135deg,#FF6B35,#E8521A)"></div>
+        <div class="theme-name">ส้มร้อน</div>
+        <div style="font-size:11px;color:var(--gray)">ค่าเริ่มต้น</div>
+      </div>
+      <div class="theme-option" id="theme-green" onclick="setTheme('green')">
+        <div class="theme-swatch" style="background:linear-gradient(135deg,#43A047,#1B5E20)"></div>
+        <div class="theme-name">เขียวสด</div>
+        <div style="font-size:11px;color:var(--gray)">สบายตา</div>
+      </div>
+      <div class="theme-option" id="theme-indigo" onclick="setTheme('indigo')">
+        <div class="theme-swatch" style="background:linear-gradient(135deg,#5C6BC0,#283593)"></div>
+        <div class="theme-name">คราม</div>
+        <div style="font-size:11px;color:var(--gray)">สุขุม</div>
+      </div>
+    </div>
+    <button class="btn btn-secondary" onclick="closeThemeModal()">ปิด</button>
+  </div>
+</div>
+
+<!-- EDIT ORDER MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">✏️ แก้ไขออเดอร์</div>
+    <div id="editModalContent"></div>
+    <div style="display:flex;gap:8px;margin-top:4px">
+      <button class="btn btn-secondary" onclick="closeEditModal()">ยกเลิก</button>
+      <button class="btn btn-primary" onclick="saveEditOrder()">💾 บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- Demo -->
+<div style="text-align:center;padding:14px 0 36px;color:var(--gray);font-size:12px">
+  <button onclick="loadDemo()" style="background:none;border:1px dashed #ccc;border-radius:8px;padding:6px 14px;font-size:12px;color:var(--gray);cursor:pointer;font-family:'Sarabun',sans-serif">📥 โหลดข้อมูลตัวอย่าง</button>
+  <br><br>รหัสผ่านผู้เปิดรับ: <strong>1234</strong>
+</div>
+
+<script type="module">
+// ===== FIREBASE =====
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import {
+  getFirestore, collection, doc, setDoc, deleteDoc,
+  onSnapshot, query, orderBy, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCueKkC1jM8VzrS2DE8Nn9ErtFd_2Fa3sA",
+  authDomain: "matakarn-pa-aroi-official.firebaseapp.com",
+  projectId: "matakarn-pa-aroi-official",
+  storageBucket: "matakarn-pa-aroi-official.firebasestorage.app",
+  messagingSenderId: "921400405042",
+  appId: "1:921400405042:web:10948c3e4cbdd238c5602b"
+};
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
+
+// Firestore collections
+const sessCol   = collection(db, 'sessions');
+const ordCol    = collection(db, 'orders');
+const histCol   = collection(db, 'history');
+
+// ── Firestore write helpers ──
+async function fbSaveSession(s) {
+  const d = { ...s, openTime: s.openTime.toISOString(), closeTime: s.closeTime.toISOString(), createdAt: s.createdAt.toISOString() };
+  await setDoc(doc(sessCol, s.id), d);
+}
+async function fbDeleteSession(id) { await deleteDoc(doc(sessCol, id)); }
+async function fbSaveOrder(o) {
+  const d = { ...o, time: o.time.toISOString() };
+  await setDoc(doc(ordCol, o.id), d);
+}
+async function fbDeleteOrder(id) { await deleteDoc(doc(ordCol, id)); }
+async function fbSaveHistory(h) {
+  const d = { ...h, openTime: h.openTime.toISOString(), closeTime: h.closeTime.toISOString(), createdAt: h.createdAt.toISOString(), closedAt: h.closedAt.toISOString() };
+  await setDoc(doc(histCol, h.id), d);
+}
+
+// ── Real-time listeners ──
+function parseDates(s) {
+  return { ...s, openTime: new Date(s.openTime), closeTime: new Date(s.closeTime), createdAt: new Date(s.createdAt) };
+}
+onSnapshot(query(sessCol, orderBy('createdAt','desc')), snap => {
+  sessions = snap.docs.map(d => parseDates(d.data()));
+  const ov=document.getElementById('loadingOverlay');
+  if(ov) ov.style.display='none';
+  if (document.getElementById('section-order').classList.contains('active')) renderOrderTab();
+  if (adminLoggedIn) renderAdminSessions();
+  syncDashSelect();
+  if (document.getElementById('section-dashboard').classList.contains('active')) renderDashboard();
+});
+onSnapshot(query(ordCol, orderBy('time','asc')), snap => {
+  orders = snap.docs.map(d => ({ ...d.data(), time: new Date(d.data().time) }));
+  if (document.getElementById('section-order').classList.contains('active')) renderOrderTab();
+  if (adminLoggedIn) renderAdminSessions();
+  if (document.getElementById('section-dashboard').classList.contains('active')) renderDashboard();
+});
+onSnapshot(query(histCol, orderBy('closedAt','desc')), snap => {
+  history_sessions = snap.docs.map(d => ({
+    ...d.data(),
+    openTime: new Date(d.data().openTime), closeTime: new Date(d.data().closeTime),
+    createdAt: new Date(d.data().createdAt), closedAt: new Date(d.data().closedAt),
+    collapsed: true
+  }));
+  if (document.getElementById('section-history').classList.contains('active')) renderHistory();
+  if (document.getElementById('section-dashboard').classList.contains('active')) renderDashboard();
+});
+
+// ===== STATE =====
+let sessions = [];   // active/open sessions
+let history_sessions = []; // archived (closed) sessions with their orders snapshot
+let orders = [];
+let currentUser = { name:'', isAdmin:false };
+let adminLoggedIn = false;
+const ADMIN_PASS = '1234';
+const EMOJIS_FOOD  = ['🍛','🍜','🍱','🥘','🍲','🍝','🍗','🥩','🍔','🌮','🥗','🫕'];
+const EMOJIS_SNACK = ['🧁','🍰','🍩','🍪','🧇','🥐','🍡','🧆','🥜','🍫','🍬','🧃'];
+let tempMenuItems = [];
+let selectedSessType = 'food';
+let editingOrder = null;
+let editSelectedMenuId = null;
+let selectedMenus = {};
+let currentTheme = localStorage.getItem('theme') || 'orange';
+
+// ===== LIFF ID =====
+const LIFF_ID = '2010144043-jNRm1w4i';
+
+// ===== INIT =====
+(async function init(){
+  applyTheme(currentTheme);
+  try {
+    await liff.init({ liffId: LIFF_ID });
+    if (!liff.isLoggedIn()) {
+      liff.login();
+      return;
+    }
+    const profile = await liff.getProfile();
+    currentUser.name = profile.displayName;
+    currentUser.lineUserId = profile.userId;
+    currentUser.pictureUrl = profile.pictureUrl;
+    // Update UI
+    const avatar = document.getElementById('userAvatar');
+    if (profile.pictureUrl) {
+      avatar.style.backgroundImage = `url(${profile.pictureUrl})`;
+      avatar.style.backgroundSize = 'cover';
+      avatar.style.backgroundPosition = 'center';
+      avatar.textContent = '';
+    } else {
+      avatar.textContent = profile.displayName[0];
+    }
+    document.getElementById('userNameDisplay').textContent = profile.displayName;
+    document.getElementById('userName').value = profile.displayName;
+    // Hide name input row since we got it from LINE
+    document.getElementById('nameInputRow').style.display = 'none';
+    toast('👋 สวัสดี ' + profile.displayName + '!');
+    renderOrderTab();
+  } catch(e) {
+    console.warn('LIFF init failed, using manual mode:', e);
+    // Fallback: ใช้งานแบบ manual ได้ปกติ
+  }
+})();
+
+// ===== UTILS =====
+function toast(msg, dur=2400){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),dur);
+}
+function fmt(n){return Number(n).toLocaleString('th-TH');}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
+function pad(n){return String(n).padStart(2,'0');}
+function toDTLocal(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;}
+function isOpen(s){const now=new Date();return s.active&&now>=s.openTime&&now<=s.closeTime;}
+function getSession(id){return sessions.find(s=>s.id===id);}
+function getSessionOrders(sessionId){return orders.filter(o=>o.sessionId===sessionId);}
+function fmtDT(d){if(!d)return'-';return `${pad(d.getDate())}/${pad(d.getMonth()+1)} ${pad(d.getHours())}:${pad(d.getMinutes())}`;}
+function fmtDate(d){if(!d)return'-';return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;}
+function typeLabel(t){return t==='snack'?'<span class="type-tag tag-snack">🧁 อาหารว่าง</span>':'<span class="type-tag tag-food">🍛 อาหาร</span>';}
+
+// ===== THEME =====
+function applyTheme(theme){
+  document.body.setAttribute('data-theme', theme);
+  currentTheme = theme;
+  localStorage.setItem('theme', theme);
+  ['orange','green','indigo'].forEach(t=>{
+    const el=document.getElementById('theme-'+t);
+    if(el) el.classList.toggle('active', t===theme);
+  });
+}
+function setTheme(theme){ applyTheme(theme); toast('🎨 เปลี่ยนธีม: '+{orange:'ส้มร้อน',green:'เขียวสด',indigo:'คราม'}[theme]); }
+function selectSessType(t){
+  selectedSessType=t;
+  const pf=document.getElementById('typePillFood');
+  const ps=document.getElementById('typePillSnack');
+  if(pf){pf.style.border=t==='food'?'2px solid var(--primary)':'2px solid #E8DDD0';pf.style.background=t==='food'?'var(--primary-soft)':'#fff';pf.querySelector('div:last-child').style.color=t==='food'?'var(--primary-dark)':'var(--gray)';}
+  if(ps){ps.style.border=t==='snack'?'2px solid var(--snack-color)':'2px solid #E8DDD0';ps.style.background=t==='snack'?'#F3E5F5':'#fff';ps.querySelector('div:last-child').style.color=t==='snack'?'var(--snack-color)':'var(--gray)';}
+}
+function openThemeModal(){ document.getElementById('themeModal').classList.add('open'); }
+function closeThemeModal(){ document.getElementById('themeModal').classList.remove('open'); }
+
+// ===== TABS =====
+function switchTab(tab){
+  ['order','admin','dashboard','history'].forEach(t=>{
+    document.getElementById('tab-'+t).classList.toggle('active',t===tab);
+    document.getElementById('section-'+t).classList.toggle('active',t===tab);
+  });
+  if(tab==='order') renderOrderTab();
+  if(tab==='admin' && adminLoggedIn) renderAdminSessions();
+  if(tab==='dashboard'){syncDashSelect(); renderDashboard();}
+  if(tab==='history') renderHistory();
+}
+
+// ===== USER =====
+function setUser(){
+  const n=document.getElementById('userName').value.trim();
+  if(!n){toast('⚠️ กรุณาระบุชื่อ');return;}
+  currentUser.name=n;
+  document.getElementById('userAvatar').textContent=n[0];
+  document.getElementById('userNameDisplay').textContent=n;
+  toast('✅ บันทึกชื่อแล้ว: '+n);
+  renderOrderTab();
+}
+
+// ===== ADMIN AUTH =====
+function adminLogin(){
+  if(document.getElementById('adminPass').value!==ADMIN_PASS){toast('❌ รหัสผ่านไม่ถูกต้อง');return;}
+  adminLoggedIn=true; currentUser.isAdmin=true;
+  document.getElementById('adminAuthCard').style.display='none';
+  document.getElementById('adminPanel').style.display='block';
+  document.getElementById('userRoleBadge').textContent='ผู้เปิดรับ';
+  document.getElementById('userRoleBadge').className='user-role-badge badge-admin';
+  const now=new Date();
+  document.getElementById('newOpenTime').value=toDTLocal(now);
+  document.getElementById('newCloseTime').value=toDTLocal(new Date(now.getTime()+30*60000));
+  renderAdminSessions(); toast('🔓 เข้าสู่ระบบผู้เปิดรับแล้ว');
+}
+
+// ===== TEMP MENU =====
+function addNewMenuItem(){
+  const n=document.getElementById('newMenuName').value.trim();
+  const p=parseFloat(document.getElementById('newMenuPrice').value)||0;
+  const type=selectedSessType;
+  if(!n){toast('⚠️ ระบุชื่อเมนู');return;}
+  tempMenuItems.push({id:uid(),name:n,price:p,type});
+  document.getElementById('newMenuName').value='';
+  document.getElementById('newMenuPrice').value='';
+  renderTempMenuList();
+}
+function deleteTempMenu(id){tempMenuItems=tempMenuItems.filter(m=>m.id!==id);renderTempMenuList();}
+function renderTempMenuList(){
+  const el=document.getElementById('newMenuList');
+  if(!tempMenuItems.length){el.innerHTML='<div style="color:var(--gray);font-size:13px">ยังไม่มีเมนู</div>';return;}
+  el.innerHTML=tempMenuItems.map(m=>`
+    <div class="menu-item-row">
+      ${typeLabel(m.type)}
+      <span class="menu-name">${m.name}</span>
+      <span class="menu-price">${fmt(m.price)} ฿</span>
+      <button class="del-btn" onclick="deleteTempMenu('${m.id}')">×</button>
+    </div>`).join('');
+}
+
+// ===== CREATE SESSION =====
+function createSession(){
+  const name=document.getElementById('newSessionName').value.trim();
+  const gc=parseInt(document.getElementById('newGroupCount').value)||0;
+  const ot=document.getElementById('newOpenTime').value;
+  const ct=document.getElementById('newCloseTime').value;
+  if(!name){toast('⚠️ ระบุชื่อรอบ');return;}
+  if(!ot||!ct){toast('⚠️ ระบุเวลาเปิด-ปิด');return;}
+  if(!tempMenuItems.length){toast('⚠️ เพิ่มเมนูอย่างน้อย 1 รายการ');return;}
+  if(new Date(ct)<=new Date(ot)){toast('⚠️ เวลาปิดต้องมากกว่าเวลาเปิด');return;}
+  const sess={id:uid(),name,groupCount:gc,type:selectedSessType,openTime:new Date(ot),closeTime:new Date(ct),active:true,menus:[...tempMenuItems],collapsed:false,createdAt:new Date()};
+  sessions.push(sess);
+  fbSaveSession(sess);
+  tempMenuItems=[]; selectedSessType='food';
+  document.getElementById('newSessionName').value='';
+  document.getElementById('newGroupCount').value='';
+  selectSessType('food');
+  renderTempMenuList();
+  const now=new Date();
+  document.getElementById('newOpenTime').value=toDTLocal(now);
+  document.getElementById('newCloseTime').value=toDTLocal(new Date(now.getTime()+30*60000));
+  renderAdminSessions(); renderOrderTab(); syncDashSelect();
+  toast('🟢 สร้างรอบ "'+name+'" แล้ว');
+}
+
+// ===== ARCHIVE SESSION (History) =====
+function archiveSession(sess){
+  const sessOrders=getSessionOrders(sess.id);
+  const h={
+    ...sess,
+    closedAt:new Date(),
+    ordersSnapshot:[...sessOrders],
+    collapsed:true,
+  };
+  history_sessions.unshift(h);
+  return h;
+}
+
+// ===== ADMIN SESSIONS RENDER =====
+function renderAdminSessions(){
+  const el=document.getElementById('adminSessionsList');
+  if(!sessions.length){el.innerHTML='<div class="alert alert-info">ℹ️ ยังไม่มีรอบ กรุณาสร้างรอบใหม่</div>';return;}
+  el.innerHTML=sessions.map(s=>`
+    <div class="session-admin-card ${s.collapsed?'collapsed':''}">
+      <div class="session-admin-header" onclick="toggleCollapse('${s.id}')">
+        <span class="session-admin-title">${s.name}</span>
+        ${isOpen(s)
+          ? '<span class="status-badge badge-open"><span class="s-dot"></span>เปิดรับ</span>'
+          : '<span class="status-badge badge-closed"><span class="s-dot"></span>ปิดแล้ว</span>'}
+        <span class="collapse-icon">▾</span>
+      </div>
+      <div class="session-admin-body">
+        <div style="font-size:12px;color:var(--gray);margin-bottom:10px">
+          เปิด: ${fmtDT(s.openTime)} | ปิด: ${fmtDT(s.closeTime)}<br>
+          ประเภท: ${s.type==='snack'?'🧁 อาหารว่าง':'🍛 อาหาร'} | สมาชิก: ${s.groupCount||'-'} คน | เมนู: ${s.menus.length} รายการ
+        </div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px">
+          ${isOpen(s)
+            ? `<button class="btn btn-red btn-sm" onclick="closeSession('${s.id}')">🔴 ปิดรับ</button>`
+            : `<button class="btn btn-green btn-sm" onclick="reopenSession('${s.id}')">🟢 เปิดใหม่</button>`}
+          <button class="btn btn-secondary btn-sm" onclick="deleteSession('${s.id}')">🗑️ ลบรอบ</button>
+        </div>
+        <!-- Proxy -->
+        <div style="background:var(--gray-light);border-radius:12px;padding:11px;margin-bottom:10px">
+          <div style="font-family:'Kanit',sans-serif;font-weight:700;font-size:13px;margin-bottom:7px">➕ เพิ่มออเดอร์แทนผู้อื่น</div>
+          <input type="text" id="proxyName_${s.id}" placeholder="ชื่อผู้สั่ง" style="margin-bottom:6px">
+          <select id="proxyMenu_${s.id}" style="margin-bottom:6px">
+            <option value="">-- เลือกเมนู --</option>
+            ${s.menus.map(m=>`<option value="${m.id}">${s.type==='snack'?'🧁':'🍛'} ${m.name} (${fmt(m.price)} ฿)</option>`).join('')}
+          </select>
+          <button class="btn btn-primary btn-sm" onclick="addProxyOrder('${s.id}')">➕ เพิ่ม</button>
+        </div>
+        <!-- Orders -->
+        <div style="font-family:'Kanit',sans-serif;font-weight:700;font-size:13px;margin-bottom:6px">
+          📋 ออเดอร์ทั้งหมด (${getSessionOrders(s.id).length})
+        </div>
+        ${renderAdminOrderTable(s.id)}
+      </div>
+    </div>`).join('');
+}
+
+function renderAdminOrderTable(sessionId){
+  const ords=getSessionOrders(sessionId);
+  if(!ords.length) return '<div class="empty-state" style="padding:14px"><div class="empty-icon">📋</div><p>ยังไม่มีออเดอร์</p></div>';
+  return `<table class="orders-table">
+    <thead><tr><th>#</th><th>ชื่อ</th><th>ประเภท</th><th>เมนู</th><th>฿</th><th></th></tr></thead>
+    <tbody>${ords.map((o,i)=>`
+      <tr>
+        <td style="color:var(--gray)">${i+1}</td>
+        <td style="font-weight:600">${o.userName}${o.isProxy?'<span style="font-size:10px;color:var(--primary-dark);margin-left:3px">(แทน)</span>':''}</td>
+        <td>${(getSession(o.sessionId)||{type:'food'}).type==='snack'?'<span class="type-tag tag-snack" style="font-size:10px">🧁</span>':'<span class="type-tag tag-food" style="font-size:10px">🍛</span>'}</td>
+        <td>${o.menuName}</td>
+        <td style="font-weight:700;color:var(--primary-dark)">${fmt(o.price)}</td>
+        <td style="white-space:nowrap">
+          <button onclick="openEditModal('${o.id}')" title="แก้ไข" style="background:none;border:none;cursor:pointer;font-size:14px;padding:2px">✏️</button>
+          <button onclick="deleteOrder('${o.id}')" title="ลบ" style="background:none;border:none;cursor:pointer;font-size:14px;color:#ccc;padding:2px">×</button>
+        </td>
+      </tr>`).join('')}
+    </tbody></table>`;
+}
+
+function toggleCollapse(id){const s=getSession(id);if(!s)return;s.collapsed=!s.collapsed;renderAdminSessions();}
+
+function closeSession(id){
+  const s=getSession(id);if(!s)return;
+  const h=archiveSession(s);
+  fbSaveHistory(h);
+  fbDeleteSession(id);
+  getSessionOrders(id).forEach(o=>fbDeleteOrder(o.id));
+  toast('🔴 ปิดและบันทึกประวัติรอบ "'+s.name+'" แล้ว');
+}
+
+function reopenSession(id){
+  const s=getSession(id);if(!s)return;
+  s.active=true; s.closeTime=new Date(Date.now()+30*60000);
+  fbSaveSession(s);
+  toast('🟢 เปิดรับอีกครั้ง: '+s.name);
+}
+
+function deleteSession(id){
+  if(!confirm('ลบรอบนี้? (ออเดอร์ในรอบจะหายไปด้วย)'))return;
+  fbDeleteSession(id);
+  getSessionOrders(id).forEach(o=>fbDeleteOrder(o.id));
+  toast('🗑️ ลบรอบแล้ว');
+}
+
+// ===== PROXY ORDER =====
+function addProxyOrder(sessionId){
+  const sess=getSession(sessionId);
+  if(!sess){toast('⚠️ ไม่พบรอบ');return;}
+  const name=document.getElementById('proxyName_'+sessionId).value.trim();
+  const menuId=document.getElementById('proxyMenu_'+sessionId).value;
+  if(!name){toast('⚠️ ระบุชื่อผู้สั่ง');return;}
+  if(!menuId){toast('⚠️ เลือกเมนู');return;}
+  const menu=sess.menus.find(m=>m.id===menuId);
+  const po={id:uid(),sessionId,userName:name,menuId:menu.id,menuName:menu.name,menuType:sess.type,price:menu.price,isProxy:true,time:new Date()};
+  orders.push(po);
+  fbSaveOrder(po);
+  document.getElementById('proxyName_'+sessionId).value='';
+  document.getElementById('proxyMenu_'+sessionId).value='';
+  renderAdminSessions();
+  toast('✅ เพิ่มออเดอร์ให้ '+name+': '+menu.name);
+}
+
+// ===== DELETE ORDER =====
+function deleteOrder(orderId){
+  fbDeleteOrder(orderId);
+  toast('🗑️ ลบออเดอร์แล้ว');
+}
+
+// ===== EDIT ORDER =====
+function openEditModal(orderId){
+  const o=orders.find(x=>x.id===orderId); if(!o)return;
+  editingOrder=o; editSelectedMenuId=o.menuId;
+  const sess=getSession(o.sessionId);
+  document.getElementById('editModalContent').innerHTML=`
+    <div style="margin-bottom:10px">
+      <label>ชื่อผู้สั่ง</label>
+      <input type="text" id="editName" value="${o.userName}" style="margin-bottom:0">
+    </div>
+    <label style="margin-bottom:8px">เลือกเมนู</label>
+    <div style="margin-bottom:12px">
+      ${sess.menus.map((m,i)=>`
+        <div class="order-option ${editSelectedMenuId===m.id?'selected':''}" onclick="selectEditMenu('${m.id}')" id="editopt_${m.id}" style="margin-bottom:7px">
+          <div class="food-emoji">${m.type==='snack'?EMOJIS_SNACK[i%EMOJIS_SNACK.length]:EMOJIS_FOOD[i%EMOJIS_FOOD.length]}</div>
+          <div class="food-info">
+            <div class="food-name">${m.name} ${typeLabel(m.type)}</div>
+            <div class="food-price">${fmt(m.price)} บาท</div>
+          </div>
+          <div class="check-circle" id="editcheck_${m.id}">${editSelectedMenuId===m.id?'✓':''}</div>
+        </div>`).join('')}
+    </div>`;
+  document.getElementById('editModal').classList.add('open');
+}
+function selectEditMenu(id){
+  editSelectedMenuId=id;
+  const sess=getSession(editingOrder.sessionId);
+  sess.menus.forEach(m=>{
+    const el=document.getElementById('editopt_'+m.id);
+    const ck=document.getElementById('editcheck_'+m.id);
+    if(el) el.classList.toggle('selected',m.id===id);
+    if(ck) ck.textContent=m.id===id?'✓':'';
+  });
+}
+function closeEditModal(){document.getElementById('editModal').classList.remove('open');editingOrder=null;editSelectedMenuId=null;}
+function saveEditOrder(){
+  if(!editingOrder||!editSelectedMenuId){toast('⚠️ เลือกเมนูก่อน');return;}
+  const newName=document.getElementById('editName').value.trim();
+  if(!newName){toast('⚠️ ระบุชื่อผู้สั่ง');return;}
+  const sess=getSession(editingOrder.sessionId);
+  const menu=sess.menus.find(m=>m.id===editSelectedMenuId);
+  const o=orders.find(x=>x.id===editingOrder.id);
+  if(o){o.userName=newName;o.menuId=menu.id;o.menuName=menu.name;o.menuType=sess.type;o.price=menu.price; fbSaveOrder(o);}
+  closeEditModal();
+  toast('✅ แก้ไขออเดอร์แล้ว');
+}
+
+// ===== ORDER TAB =====
+function renderOrderTab(){
+  const area=document.getElementById('orderSessionArea');
+  const openSessions=sessions.filter(s=>isOpen(s));
+  if(!openSessions.length){
+    area.innerHTML='<div class="alert alert-warning">⏳ ยังไม่มีรอบเปิดรับออเดอร์</div>';
+    return;
+  }
+  area.innerHTML=openSessions.map(s=>{
+    const myOrder=orders.find(o=>o.sessionId===s.id&&o.userName===currentUser.name&&!o.isProxy);
+    const sel=selectedMenus[s.id];
+    const emojis=s.type==='snack'?EMOJIS_SNACK:EMOJIS_FOOD;
+    const sessTypeBadge=s.type==='snack'
+      ?'<span class="type-tag tag-snack">🧁 อาหารว่าง</span>'
+      :'<span class="type-tag tag-food">🍛 อาหาร</span>';
+    return `
+    <div class="card" style="margin-bottom:13px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div style="font-family:'Kanit',sans-serif;font-weight:800;font-size:16px">${s.name}</div>
+        <span class="status-badge badge-open"><span class="s-dot"></span>เปิดรับ</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px">
+        ${sessTypeBadge}
+        <span style="font-size:12px;color:var(--gray)">ปิดรับ: ${fmtDT(s.closeTime)} | ${getSessionOrders(s.id).length} ออเดอร์</span>
+      </div>
+      ${myOrder
+        ? `<div class="alert alert-success">✅ คุณสั่ง: <strong>${myOrder.menuName}</strong> (${fmt(myOrder.price)} ฿)</div>
+           <button class="btn btn-secondary btn-sm" onclick="cancelMyOrder('${s.id}')">❌ ยกเลิกออเดอร์</button>`
+        : `<div>
+            ${s.menus.map((m,i)=>`
+              <div class="order-option ${sel===m.id?'selected':''}" onclick="selectOrderMenu('${s.id}','${m.id}')">
+                <div class="food-emoji">${emojis[i%emojis.length]}</div>
+                <div class="food-info">
+                  <div class="food-name">${m.name}</div>
+                  <div class="food-price">${fmt(m.price)} บาท</div>
+                </div>
+                <div class="check-circle">${sel===m.id?'✓':''}</div>
+              </div>`).join('')}
+            <div style="margin-top:10px">
+              <button class="btn btn-primary" onclick="submitOrder('${s.id}')">✅ ยืนยันออเดอร์</button>
+            </div>
+          </div>`
+      }
+    </div>`;
+  }).join('');
+}
+
+function selectOrderMenu(sessionId,menuId){selectedMenus[sessionId]=menuId;renderOrderTab();}
+function submitOrder(sessionId){
+  if(!currentUser.name){toast('⚠️ กรุณาระบุชื่อก่อนสั่ง');return;}
+  const menuId=selectedMenus[sessionId];
+  if(!menuId){toast('⚠️ กรุณาเลือกเมนู');return;}
+  const sess=getSession(sessionId);
+  const menu=sess.menus.find(m=>m.id===menuId);
+  const no={id:uid(),sessionId,userName:currentUser.name,menuId:menu.id,menuName:menu.name,menuType:sess.type,price:menu.price,isProxy:false,time:new Date()};
+  orders.push(no);
+  fbSaveOrder(no);
+  delete selectedMenus[sessionId];
+  toast('✅ สั่ง '+menu.name+' เรียบร้อย!');
+}
+function cancelMyOrder(sessionId){
+  const myOrd=orders.find(o=>o.sessionId===sessionId&&o.userName===currentUser.name&&!o.isProxy);
+  if(myOrd) fbDeleteOrder(myOrd.id);
+  toast('❌ ยกเลิกออเดอร์แล้ว');
+}
+
+// ===== DASHBOARD =====
+function syncDashSelect(){
+  const sel=document.getElementById('dashSessionSelect');
+  const cur=sel.value;
+  sel.innerHTML='<option value="all">ทุกรอบรวมกัน</option>'+
+    sessions.map(s=>`<option value="${s.id}">${s.name} ${isOpen(s)?'🟢':'🔴'}</option>`).join('');
+  if(sessions.find(s=>s.id===cur)) sel.value=cur;
+}
+
+function renderDashboard(){
+  const selId=document.getElementById('dashSessionSelect').value;
+  const filtSess=selId==='all'?sessions:sessions.filter(s=>s.id===selId);
+  const filtOrds=selId==='all'?orders:orders.filter(o=>o.sessionId===selId);
+
+  const total=filtOrds.length;
+  // derive type from session, not per-order field
+  const foodOrds=filtOrds.filter(o=>(getSession(o.sessionId)||{type:'food'}).type!=='snack');
+  const snackOrds=filtOrds.filter(o=>(getSession(o.sessionId)||{type:'food'}).type==='snack');
+  // also include history orders if viewing all
+  const allHistOrdFood=history_sessions.flatMap(h=>h.ordersSnapshot.filter(()=>h.type!=='snack'));
+  const allHistOrdSnack=history_sessions.flatMap(h=>h.ordersSnapshot.filter(()=>h.type==='snack'));
+  const totalPrice=filtOrds.reduce((s,o)=>s+o.price,0);
+  const openCount=filtSess.filter(s=>isOpen(s)).length;
+  const menuCount=filtSess.reduce((s,sess)=>s+sess.menus.length,0);
+
+  document.getElementById('statTotal').textContent=total;
+  document.getElementById('statSessions').textContent=openCount;
+  document.getElementById('statFoodCount').textContent=foodOrds.length;
+  document.getElementById('statSnackCount').textContent=snackOrds.length;
+  document.getElementById('statTotalPrice').textContent=fmt(totalPrice);
+  document.getElementById('statMenuCount').textContent=menuCount;
+
+  // Progress
+  const groupSize=selId==='all'
+    ? filtSess.reduce((s,sess)=>s+(sess.groupCount||0),0)
+    : (filtSess[0]?.groupCount||0);
+  let pct=0, notOrdered='-', noteText='ไม่ได้ระบุจำนวนสมาชิก';
+  if(groupSize>0){pct=Math.min(100,Math.round(total/groupSize*100));notOrdered=Math.max(0,groupSize-total);noteText=`จากสมาชิก ${groupSize} คน`;}
+  document.getElementById('statOrdered').textContent=total;
+  document.getElementById('statNotOrdered').textContent=notOrdered;
+  document.getElementById('progressPct').textContent=groupSize>0?pct+'%':'-';
+  document.getElementById('memberCountNote').textContent=noteText;
+  document.getElementById('progressRing').style.strokeDashoffset=251.2-(pct/100)*251.2;
+
+  // Bars by type
+  function renderBars(ords, fillClass, emptyIcon){
+    if(!ords.length) return `<div class="empty-state" style="padding:14px"><div class="empty-icon">${emptyIcon}</div><p>ยังไม่มีข้อมูล</p></div>`;
+    const counts={};
+    ords.forEach(o=>{counts[o.menuName]=(counts[o.menuName]||0)+1;});
+    const max=Math.max(...Object.values(counts),1);
+    return Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([n,c])=>`
+      <div class="order-bar">
+        <div class="order-bar-top">
+          <span class="order-bar-name">${n}</span>
+          <span class="order-bar-count">${c} ออเดอร์</span>
+        </div>
+        <div class="bar-track"><div class="${fillClass}" style="width:${c/max*100}%"></div></div>
+      </div>`).join('');
+  }
+  document.getElementById('dashFoodBars').innerHTML=renderBars(foodOrds,'bar-fill-food','🍛');
+  document.getElementById('dashSnackBars').innerHTML=renderBars(snackOrds,'bar-fill-snack','🧁');
+
+  // ── Trending (all sessions + history combined) ──
+  const allSessCounts={};   // shopName -> total sessions count
+  const allMenuCounts={};   // menuName -> total orders count
+  // active sessions (use their archived orders if closed, current orders if open)
+  sessions.forEach(s=>{
+    allSessCounts[s.name]=(allSessCounts[s.name]||0)+1;
+    getSessionOrders(s.id).forEach(o=>{allMenuCounts[o.menuName]=(allMenuCounts[o.menuName]||0)+1;});
+  });
+  history_sessions.forEach(h=>{
+    allSessCounts[h.name]=(allSessCounts[h.name]||0)+1;
+    h.ordersSnapshot.forEach(o=>{allMenuCounts[o.menuName]=(allMenuCounts[o.menuName]||0)+1;});
+  });
+
+  function renderTrending(counts, emptyIcon, barClass){
+    const entries=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+    if(!entries.length) return `<div class="empty-state" style="padding:14px"><div class="empty-icon">${emptyIcon}</div><p>ยังไม่มีข้อมูล</p></div>`;
+    const max=entries[0][1];
+    return entries.slice(0,8).map(([name,cnt],i)=>`
+      <div class="order-bar" style="margin-bottom:9px">
+        <div class="order-bar-top">
+          <span class="order-bar-name"><span style="font-family:'Kanit',sans-serif;font-weight:900;color:var(--primary-dark);margin-right:5px;font-size:15px">#${i+1}</span>${name}</span>
+          <span class="order-bar-count">${cnt} ${barClass==='bar-fill-food'?'ครั้ง':'ออเดอร์'}</span>
+        </div>
+        <div class="bar-track"><div class="${barClass}" style="width:${cnt/max*100}%"></div></div>
+      </div>`).join('');
+  }
+  document.getElementById('trendingShops').innerHTML=renderTrending(allSessCounts,'🏪','bar-fill-food');
+  document.getElementById('trendingMenus').innerHTML=renderTrending(allMenuCounts,'🍽️','bar-fill-snack');
+
+  // Table
+  const tableEl=document.getElementById('dashboardOrdersTable');
+  if(!total){tableEl.innerHTML='<div class="empty-state"><div class="empty-icon">🛒</div><p>ยังไม่มีออเดอร์</p></div>';}
+  else{
+    tableEl.innerHTML=`<table class="orders-table">
+      <thead><tr><th>#</th><th>ชื่อ</th><th>รอบ</th><th>ประเภท</th><th>เมนู</th><th>฿</th></tr></thead>
+      <tbody>${filtOrds.map((o,i)=>`
+        <tr>
+          <td style="color:var(--gray)">${i+1}</td>
+          <td style="font-weight:600">${o.userName}</td>
+          <td style="font-size:11px;color:var(--gray)">${getSession(o.sessionId)?.name||'-'}</td>
+          <td>${(getSession(o.sessionId)||{type:'food'}).type==='snack'?'<span class="type-tag tag-snack" style="font-size:10px">🧁</span>':'<span class="type-tag tag-food" style="font-size:10px">🍛</span>'}</td>
+          <td>${o.menuName}</td>
+          <td style="font-weight:700;color:var(--primary-dark)">${fmt(o.price)}</td>
+        </tr>`).join('')}
+      </tbody></table>`;
+  }
+}
+
+// ===== HISTORY =====
+function renderHistory(){
+  const el=document.getElementById('historyList');
+  if(!history_sessions.length){
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">📂</div><p>ยังไม่มีประวัติการเปิดรับออเดอร์<br>เมื่อปิดรับออเดอร์จะบันทึกที่นี่</p></div>';
+    return;
+  }
+  el.innerHTML=history_sessions.map((h,hi)=>{
+    const ords=h.ordersSnapshot;
+    const total=ords.length;
+    const foodOrds=ords.filter(o=>o.menuType!=='snack');
+    const snackOrds=ords.filter(o=>o.menuType==='snack');
+    const totalPrice=ords.reduce((s,o)=>s+o.price,0);
+    const counts={};
+    ords.forEach(o=>{counts[o.menuName]=(counts[o.menuName]||0)+1;});
+    return `
+    <div class="history-card">
+      <div class="history-header" onclick="toggleHistory(${hi})">
+        <span class="history-title">${h.name}</span>
+        <span class="status-badge badge-archived"><span class="s-dot"></span>ปิดแล้ว</span>
+        <span class="collapse-icon" id="hcol_${hi}" style="font-size:17px;color:var(--gray);transition:transform .25s">${h.collapsed?'▸':'▾'}</span>
+      </div>
+      <div class="history-body" id="hbody_${hi}" style="display:${h.collapsed?'none':'block'}">
+        <div style="font-size:12px;color:var(--gray);margin-bottom:10px">
+          📅 สร้าง: ${fmtDT(h.createdAt)} &nbsp;|&nbsp; ปิด: ${fmtDT(h.closedAt)}<br>
+          สมาชิก: ${h.groupCount||'-'} คน &nbsp;|&nbsp; ออเดอร์ทั้งหมด: ${total} รายการ
+        </div>
+        <!-- mini stats -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px">
+          <div style="background:var(--gray-light);border-radius:10px;padding:9px;text-align:center">
+            <div style="font-family:'Kanit',sans-serif;font-size:20px;font-weight:900;color:var(--brown)">${total}</div>
+            <div style="font-size:11px;color:var(--gray)">ออเดอร์</div>
+          </div>
+          <div style="background:#FFF3E0;border-radius:10px;padding:9px;text-align:center">
+            <div style="font-family:'Kanit',sans-serif;font-size:20px;font-weight:900;color:var(--food-color)">${foodOrds.length}</div>
+            <div style="font-size:11px;color:var(--food-color)">🍛 อาหาร</div>
+          </div>
+          <div style="background:#F3E5F5;border-radius:10px;padding:9px;text-align:center">
+            <div style="font-family:'Kanit',sans-serif;font-size:20px;font-weight:900;color:var(--snack-color)">${snackOrds.length}</div>
+            <div style="font-size:11px;color:var(--snack-color)">🧁 อาหารว่าง</div>
+          </div>
+        </div>
+        <!-- menu summary -->
+        ${Object.entries(counts).length?`
+          <div style="font-family:'Kanit',sans-serif;font-weight:700;font-size:13px;margin-bottom:7px">สรุปเมนู</div>
+          ${Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([n,c])=>`
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #F0EDE8;font-size:13px">
+              <span>${n}</span>
+              <span style="font-family:'Kanit',sans-serif;font-weight:700;color:var(--primary-dark)">${c} ออเดอร์</span>
+            </div>`).join('')}`:''}
+        <!-- total -->
+        <div style="display:flex;justify-content:space-between;margin-top:10px;padding:10px 12px;background:var(--primary-soft);border-radius:10px">
+          <span style="font-family:'Kanit',sans-serif;font-weight:700">ยอดรวม</span>
+          <span style="font-family:'Kanit',sans-serif;font-weight:900;color:var(--primary-dark)">${fmt(totalPrice)} ฿</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleHistory(i){
+  history_sessions[i].collapsed=!history_sessions[i].collapsed;
+  const body=document.getElementById('hbody_'+i);
+  const icon=document.getElementById('hcol_'+i);
+  if(body) body.style.display=history_sessions[i].collapsed?'none':'block';
+  if(icon) icon.textContent=history_sessions[i].collapsed?'▸':'▾';
+}
+
+// ===== AUTO CHECK EXPIRED =====
+setInterval(()=>{
+  sessions.forEach(s=>{
+    if(s.active&&new Date()>s.closeTime){
+      const h=archiveSession(s);
+      fbSaveHistory(h);
+      fbDeleteSession(s.id);
+      getSessionOrders(s.id).forEach(o=>fbDeleteOrder(o.id));
+    }
+  });
+},15000);
+
+// ===== DEMO =====
+function loadDemo(){
+  sessions=[
+    {id:'s1',name:'ข้าวมันไก่เจ้าดัง',type:'food',groupCount:15,
+     openTime:new Date(),closeTime:new Date(Date.now()+30*60000),active:true,collapsed:false,createdAt:new Date(),
+     menus:[
+       {id:'m1',name:'ข้าวมันไก่',price:50},
+       {id:'m2',name:'ข้าวมันไก่ทอด',price:55},
+       {id:'m3',name:'น้ำซุป',price:20},
+     ]},
+    {id:'s2',name:'ชานม & ของว่าง',type:'snack',groupCount:15,
+     openTime:new Date(),closeTime:new Date(Date.now()+45*60000),active:true,collapsed:false,createdAt:new Date(),
+     menus:[
+       {id:'m4',name:'ชานมไข่มุก',price:60},
+       {id:'m5',name:'เค้กช็อกโกแลต',price:45},
+       {id:'m6',name:'คุกกี้เนย',price:30},
+     ]},
+  ];
+  orders=[
+    {id:uid(),sessionId:'s1',userName:'สมชาย',menuId:'m1',menuName:'ข้าวมันไก่',menuType:'food',price:50,isProxy:false,time:new Date()},
+    {id:uid(),sessionId:'s1',userName:'สมหญิง',menuId:'m2',menuName:'ข้าวมันไก่ทอด',menuType:'food',price:55,isProxy:false,time:new Date()},
+    {id:uid(),sessionId:'s2',userName:'สมชาย',menuId:'m4',menuName:'ชานมไข่มุก',menuType:'snack',price:60,isProxy:false,time:new Date()},
+    {id:uid(),sessionId:'s2',userName:'มานะ',menuId:'m5',menuName:'เค้กช็อกโกแลต',menuType:'snack',price:45,isProxy:true,time:new Date()},
+  ];
+  history_sessions=[
+    {id:'h1',name:'ก๋วยเตี๋ยวเจ้าเก่า',type:'food',groupCount:12,
+     createdAt:new Date(Date.now()-2*24*60*60000),closedAt:new Date(Date.now()-2*24*60*60000+40*60000),
+     collapsed:true,
+     ordersSnapshot:[
+       {id:'ho1',menuName:'เส้นใหญ่น้ำ',price:50,userName:'Alice'},
+       {id:'ho2',menuName:'เส้นเล็กแห้ง',price:50,userName:'Bob'},
+       {id:'ho3',menuName:'ชาเย็น',price:35,userName:'Carol'},
+     ]},
+    {id:'h2',name:'ข้าวมันไก่เจ้าดัง',type:'food',groupCount:12,
+     createdAt:new Date(Date.now()-5*24*60*60000),closedAt:new Date(Date.now()-5*24*60*60000+35*60000),
+     collapsed:true,
+     ordersSnapshot:[
+       {id:'ho4',menuName:'ข้าวมันไก่',price:50,userName:'Alice'},
+       {id:'ho5',menuName:'ข้าวมันไก่ทอด',price:55,userName:'Dave'},
+       {id:'ho6',menuName:'ข้าวมันไก่',price:50,userName:'Eve'},
+     ]},
+    {id:'h3',name:'ชานม & ของว่าง',type:'snack',groupCount:12,
+     createdAt:new Date(Date.now()-7*24*60*60000),closedAt:new Date(Date.now()-7*24*60*60000+25*60000),
+     collapsed:true,
+     ordersSnapshot:[
+       {id:'ho7',menuName:'ชานมไข่มุก',price:60,userName:'Frank'},
+       {id:'ho8',menuName:'เค้กช็อกโกแลต',price:45,userName:'Grace'},
+     ]},
+  ];
+  // Save to Firestore
+  sessions.forEach(s=>fbSaveSession(s));
+  orders.forEach(o=>fbSaveOrder(o));
+  history_sessions.forEach(h=>fbSaveHistory(h));
+  toast('📥 โหลดข้อมูลตัวอย่างและบันทึกไปยัง Firebase แล้ว');
+}
+</script>
+</body>
+</html>
